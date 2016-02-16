@@ -1,0 +1,32 @@
+{
+  "name": "magnet-parser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --ui tdd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wilsonpage/magnet-parser.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wilsonpage/magnet-parser/issues"
+  },
+  "homepage": "https://github.com/wilsonpage/magnet-parser#readme",
+  "browser": {
+    "./lib/html-parser/index.js": "./lib/html-parser/browser.js"
+  },
+  "dependencies": {
+    "debug": "^2.2.0",
+    "jsdom": "^8.0.2",
+    "superagent": "^1.7.2",
+    "xml2js": "^0.4.16"
+  },
+  "devDependencies": {
+    "express": "^4.13.4",
+    "mocha": "^2.4.5"
+  }
+}

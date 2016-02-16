@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<oembed>
+  <thumbnail_height>360</thumbnail_height>
+  <thumbnail_url>https://i.ytimg.com/vi/Ca93bp-jpn8/hqdefault.jpg</thumbnail_url>
+  <provider_url>https://www.youtube.com/</provider_url>
+  <width>480</width>
+  <type>video</type>
+  <author_name>Boiler Room</author_name>
+  <height>270</height>
+  <version>1.0</version>
+  <thumbnail_width>480</thumbnail_width>
+  <title>Bonobo Boiler Room London — Live at Alexandra Palace</title>
+  <author_url>https://www.youtube.com/user/brtvofficial</author_url>
+  <provider_name>YouTube</provider_name>
+  <html>&lt;iframe width="480" height="270" src="https://www.youtube.com/embed/Ca93bp-jpn8?feature=oembed" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;</html>
+</oembed>
