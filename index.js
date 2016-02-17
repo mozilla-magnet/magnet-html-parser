@@ -4,7 +4,7 @@
  */
 
 var toDom = require('./lib/html-parser');
-var parse = require('./lib/parse')
+var parse = require('./lib/parse');
 
 /**
  * Exports
