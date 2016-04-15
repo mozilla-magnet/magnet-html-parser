@@ -13,7 +13,7 @@ var parse = require('..');
  * Tests
  */
 
-suite('magent-parser', function() {
+suite('magnet-parser', function() {
   suiteSetup(function() {
     this.server = new Server(__dirname + '/apps');
     return this.server.start();
@@ -26,7 +26,7 @@ suite('magent-parser', function() {
   suite('simple', function() {
     test('it returns the title', function() {
       return fetch('simple/index.html')
-        .then(result => parse(result))
+        .then(result => parse(result.html, result.url))
         .then(result => {
           assert.equal(result.title, 'title');
         });
@@ -34,7 +34,7 @@ suite('magent-parser', function() {
 
     test('it returns the description', function() {
       return fetch('simple/index.html')
-        .then(result => parse(result))
+        .then(result => parse(result.html, result.url))
         .then(result => {
           assert.equal(result.description, 'description');
         });
@@ -44,7 +44,7 @@ suite('magent-parser', function() {
   suite('icon', function() {
     test('it returns the icon', function() {
       return fetch('icon/index.html')
-        .then(result => parse(result))
+        .then(result => parse(result.html, result.url))
         .then(result => {
           assert.equal(result.icon, 'http://static.bbci.co.uk/news/1.111.16/apple-touch-icon.png');
         });
@@ -52,7 +52,7 @@ suite('magent-parser', function() {
 
     test('it returns a list of all found icons', function() {
       return fetch('icon/index.html')
-        .then(result => parse(result))
+        .then(result => parse(result.html, result.url))
         .then(result => {
           assert.equal(result.icons.length, 5);
         });
@@ -62,7 +62,7 @@ suite('magent-parser', function() {
   suite('open-graph', function() {
     test('it returns og data', function() {
       return fetch('icon/index.html')
-        .then(result => parse(result))
+        .then(result => parse(result.html, result.url))
         .then(result => {
           var og_data = result.og_data;
 
@@ -76,7 +76,7 @@ suite('magent-parser', function() {
   suite('manifest', function() {
     test('title is returned (trumps <title>)', function() {
       return fetch('manifest/index.html')
-        .then(result => parse(result))
+        .then(result => parse(result.html, result.url))
         .then(result => {
           assert.equal(result.title, 'Google I/O 2015');
         });
@@ -84,7 +84,7 @@ suite('magent-parser', function() {
 
     test('icon returned (trumps <meta>)', function() {
       return fetch('manifest/index.html')
-        .then(result => parse(result))
+        .then(result => parse(result.html, result.url))
         .then(result => {
           assert.equal(result.icon, 'http://localhost:3333/manifest/images/touch/homescreen192.png');
         });
@@ -92,7 +92,7 @@ suite('magent-parser', function() {
 
     test('short_name returned', function() {
       return fetch('manifest/index.html')
-        .then(result => parse(result))
+        .then(result => parse(result.html, result.url))
         .then(result => {
           assert.equal(result.short_name, 'I/O 2015');
         });
@@ -102,7 +102,7 @@ suite('magent-parser', function() {
   suite('oembed', function() {
     test('json', function() {
       return fetch('oembed/json/index.html')
-        .then(result => parse(result))
+        .then(result => parse(result.html, result.url))
         .then(result => {
           assert.ok(result.embed);
           assert.ok(result.embed.html);
@@ -111,7 +111,7 @@ suite('magent-parser', function() {
 
     test('xml', function() {
       return fetch('oembed/xml/index.html')
-        .then(result => parse(result))
+        .then(result => parse(result.html, result.url))
         .then(result => {
           assert.ok(result.embed);
           assert.ok(result.embed.html);
@@ -130,7 +130,7 @@ suite('magent-parser', function() {
         .end((err, result) => {
           if (err) reject(err);
           resolve({
-            body: result.text,
+            html: result.text,
             url: result.res.url || result.request.url
           });
         });

@@ -3,13 +3,14 @@
  * Dependencies
  */
 
-var toDom = require('./lib/html-parser');
 var parse = require('./lib/parse');
+var cheerio = require('cheerio');
 
 /**
  * Exports
  */
 
-module.exports = function(res) {
-  return parse(toDom(res.body), res);
+module.exports = function(html, url) {
+  if (!html) return Promise.resolve(null);
+  return parse(cheerio.load(html), url);
 };
