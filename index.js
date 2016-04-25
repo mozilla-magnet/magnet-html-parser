@@ -1,3 +1,4 @@
+'use strict';
 
 /**
  * Dependencies
@@ -26,4 +27,4 @@ module.exports.parse = parse;
 function parse(html, baseUrl) {
   if (!html) return Promise.resolve(null);
   return exec(cheerio.load(html), baseUrl);
-};
+}

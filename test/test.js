@@ -119,6 +119,24 @@ suite('magnet-parser', function() {
     });
   });
 
+  suite('theme color', function() {
+    test('it returns <meta> defined', function() {
+      return fetch('simple/index.html')
+        .then(result => parse(result.html, result.url))
+        .then(result => {
+          assert.equal(result.theme_color, '#db5945');
+        });
+    });
+
+    test('it returns manifest defined', function() {
+      return fetch('manifest/index.html')
+        .then(result => parse(result.html, result.url))
+        .then(result => {
+          assert.equal(result.theme_color, '#2196F3');
+        });
+    });
+  });
+
   /**
    * Utils
    */
