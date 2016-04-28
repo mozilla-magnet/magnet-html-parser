@@ -98,8 +98,16 @@ suite('magnet-parser', function() {
         });
     });
 
-    test('copes with query params on target url', function() {
+    test('it copes with query params on target url', function() {
       return fetch('manifest/index.html?url=http://google.com')
+        .then(result => parse(result.html, result.url))
+        .then(result => {
+          assert.equal(result.title, 'Google I/O 2015');
+        });
+    });
+
+    test('it copes absolute paths', function() {
+      return fetch('manifest/absolute.html')
         .then(result => parse(result.html, result.url))
         .then(result => {
           assert.equal(result.title, 'Google I/O 2015');
