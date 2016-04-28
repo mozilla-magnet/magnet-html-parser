@@ -97,6 +97,14 @@ suite('magnet-parser', function() {
           assert.equal(result.short_name, 'I/O 2015');
         });
     });
+
+    test('copes with query params on target url', function() {
+      return fetch('manifest/index.html?url=http://google.com')
+        .then(result => parse(result.html, result.url))
+        .then(result => {
+          assert.equal(result.title, 'Google I/O 2015');
+        });
+    });
   });
 
   suite('oembed', function() {
@@ -111,6 +119,15 @@ suite('magnet-parser', function() {
 
     test('xml', function() {
       return fetch('oembed/xml/index.html')
+        .then(result => parse(result.html, result.url))
+        .then(result => {
+          assert.ok(result.embed);
+          assert.ok(result.embed.html);
+        });
+    });
+
+    test('copes with query params on target url', function() {
+      return fetch('oembed/json/index.html?url=http://google.com')
         .then(result => parse(result.html, result.url))
         .then(result => {
           assert.ok(result.embed);
