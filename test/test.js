@@ -22,7 +22,7 @@ const PORT = 4000;
 
 suite('magnet-parser', function() {
   suiteSetup(function() {
-    this.server = new Server(__dirname + '/apps', PORT);
+    this.server = new Server(`${__dirname}/apps`, PORT);
     return this.server.start();
   });
 
