@@ -1,0 +1,1 @@
+# magnet-html-parser [![Build Status](https://travis-ci.org/mozilla-magnet/magnet-html-parser.svg?branch=master)](https://travis-ci.org/mozilla-magnet/magnet-html-parser)
