@@ -58,96 +58,100 @@ suite('magnet-parser', function() {
   });
 
   suite('icon', function() {
-    test('it returns the icon', function() {
+    setup(function() {
       return fetch('icon/index.html')
         .then(result => parse(result.html, result.url))
         .then(result => {
-          assert.equal(result.icon, 'http://static.bbci.co.uk/news/1.111.16/apple-touch-icon.png');
+          this.result = result;
         });
     });
 
+    test('it returns the icon', function() {
+      assert.equal(this.result.icon, 'http://static.bbci.co.uk/news/1.111.16/apple-touch-icon.png');
+    });
+
     test('it returns a list of all found icons', function() {
-      return fetch('icon/index.html')
-        .then(result => parse(result.html, result.url))
-        .then(result => {
-          assert.equal(result.icons.length, 5);
-        });
+      assert.equal(this.result.icons.length, 5);
     });
   });
 
   suite('open-graph', function() {
-    test('it returns og data', function() {
+    setup(function() {
       return fetch('icon/index.html')
         .then(result => parse(result.html, result.url))
         .then(result => {
-          var og_data = result.og_data;
-
-          assert.equal(og_data.title, 'EU referendum: David Cameron in Brussels for crucial EU talks - BBC News');
-          assert.equal(og_data.description, 'David Cameron is in Brussels for key talks on his EU reform package with EU chiefs and senior MEPs, as he seeks to drum up support ahead of Thursday\'s summit.');
-          assert.equal(og_data.image, 'http://ichef.bbci.co.uk/news/1024/cpsprodpb/7345/production/_88290592_031490526-1.jpg');
+          this.result = result;
         });
+    });
+
+    test('it returns og data', function() {
+      var og_data = this.result.og_data;
+
+      assert.equal(og_data.title, 'EU referendum: David Cameron in Brussels for crucial EU talks - BBC News');
+      assert.equal(og_data.description, 'David Cameron is in Brussels for key talks on his EU reform package with EU chiefs and senior MEPs, as he seeks to drum up support ahead of Thursday\'s summit.');
+      assert.equal(og_data.image, 'http://ichef.bbci.co.uk/news/1024/cpsprodpb/7345/production/_88290592_031490526-1.jpg');
     });
   });
 
   suite('manifest', function() {
-    test('title is returned (trumps <title>)', function() {
+    setup(function() {
       return fetch('manifest/index.html')
         .then(result => parse(result.html, result.url))
         .then(result => {
-          assert.equal(result.title, 'Google I/O 2015');
+          this.result = result;
         });
+    });
+
+    test('title is returned (trumps <title>)', function() {
+      assert.equal(this.result.title, 'Google I/O 2015');
     });
 
     test('icon returned (trumps <meta>)', function() {
-      return fetch('manifest/index.html')
-        .then(result => parse(result.html, result.url))
-        .then(result => {
-          assert.equal(result.icon, `http://localhost:${PORT}/manifest/images/touch/homescreen192.png`);
-        });
+      assert.equal(this.result.icon, `http://localhost:${PORT}/manifest/images/touch/homescreen192.png`);
     });
 
     test('short_name returned', function() {
-      return fetch('manifest/index.html')
-        .then(result => parse(result.html, result.url))
-        .then(result => {
-          assert.equal(result.short_name, 'I/O 2015');
-        });
+      assert.equal(this.result.short_name, 'I/O 2015');
     });
 
     test('it copes with query params on target url', function() {
-      return fetch('manifest/index.html?url=http://google.com')
-        .then(result => parse(result.html, result.url))
-        .then(result => {
-          assert.equal(result.title, 'Google I/O 2015');
-        });
+      assert.equal(this.result.title, 'Google I/O 2015');
     });
 
     test('it copes wth absolute paths', function() {
-      return fetch('manifest/absolute.html')
-        .then(result => parse(result.html, result.url))
-        .then(result => {
-          assert.equal(result.title, 'Google I/O 2015');
-        });
+      assert.equal(this.result.title, 'Google I/O 2015');
     });
   });
 
   suite('oembed', function() {
-    test('json', function() {
-      return fetch('oembed/json/index.html')
-        .then(result => parse(result.html, result.url))
-        .then(result => {
-          assert.ok(result.embed);
-          assert.ok(result.embed.html);
-        });
+    suite('json', function() {
+      setup(function() {
+        return fetch('oembed/json/index.html')
+          .then(result => parse(result.html, result.url))
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      test('it parses the contents', function() {
+        assert.ok(this.result.embed);
+        assert.ok(this.result.embed.html);
+      });
     });
 
-    test('xml', function() {
-      return fetch('oembed/xml/index.html')
-        .then(result => parse(result.html, result.url))
-        .then(result => {
-          assert.ok(result.embed);
-          assert.ok(result.embed.html);
-        });
+    suite('xml', function() {
+      setup(function() {
+        return fetch('oembed/xml/index.html')
+          .then(result => parse(result.html, result.url))
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      test('it parses the contents', function() {
+        assert.ok(this.result.embed);
+        assert.ok(this.result.embed.html);
+      });
     });
 
     test('copes with query params on target url', function() {
