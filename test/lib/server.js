@@ -21,7 +21,7 @@ function Server(dir, port) {
 Server.prototype = {
   start: function() {
     return new Promise(resolve => {
-      this.server = this.app.listen(3333, resolve);
+      this.server = this.app.listen(this.port, resolve);
     });
   },
 

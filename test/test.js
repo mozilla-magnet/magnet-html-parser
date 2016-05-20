@@ -1,4 +1,4 @@
-/*global suite,test,suiteSetup,suiteTeardown*/
+/*global suite,test,setup,suiteSetup,suiteTeardown*/
 
 /**
  * Dependencies
@@ -10,12 +10,19 @@ var assert = require('assert');
 var parse = require('..');
 
 /**
+ * Port to run the local test server on.
+ *
+ * @type {Number}
+ */
+const PORT = 4000;
+
+/**
  * Tests
  */
 
 suite('magnet-parser', function() {
   suiteSetup(function() {
-    this.server = new Server(__dirname + '/apps');
+    this.server = new Server(__dirname + '/apps', PORT);
     return this.server.start();
   });
 
@@ -24,20 +31,29 @@ suite('magnet-parser', function() {
   });
 
   suite('simple', function() {
-    test('it returns the title', function() {
+    setup(function() {
       return fetch('simple/index.html')
         .then(result => parse(result.html, result.url))
         .then(result => {
-          assert.equal(result.title, 'title');
+          this.result = result;
         });
     });
 
+    test('it returns the title', function() {
+      assert.equal(this.result.title, 'title');
+    });
+
     test('it returns the description', function() {
-      return fetch('simple/index.html')
-        .then(result => parse(result.html, result.url))
-        .then(result => {
-          assert.equal(result.description, 'description');
-        });
+      assert.equal(this.result.description, 'description');
+    });
+
+    test('it returns a list of keywords', function() {
+      assert.deepEqual(this.result.keywords, [
+        'magnet',
+        'best',
+        'physical web',
+        'client'
+      ]);
     });
   });
 
@@ -86,7 +102,7 @@ suite('magnet-parser', function() {
       return fetch('manifest/index.html')
         .then(result => parse(result.html, result.url))
         .then(result => {
-          assert.equal(result.icon, 'http://localhost:3333/manifest/images/touch/homescreen192.png');
+          assert.equal(result.icon, `http://localhost:${PORT}/manifest/images/touch/homescreen192.png`);
         });
     });
 
@@ -106,7 +122,7 @@ suite('magnet-parser', function() {
         });
     });
 
-    test('it copes absolute paths', function() {
+    test('it copes wth absolute paths', function() {
       return fetch('manifest/absolute.html')
         .then(result => parse(result.html, result.url))
         .then(result => {
@@ -169,7 +185,7 @@ suite('magnet-parser', function() {
   function fetch(app) {
     return new Promise((resolve, reject) => {
       request
-        .get('http://localhost:3333/' + app)
+        .get(`http://localhost:${PORT}/${app}`)
         .end((err, result) => {
           if (err) reject(err);
           resolve({
