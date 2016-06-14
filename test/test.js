@@ -58,20 +58,36 @@ suite('magnet-parser', function() {
   });
 
   suite('icon', function() {
-    setup(function() {
-      return fetch('icon/index.html')
-        .then(result => parse(result.html, result.url))
-        .then(result => {
-          this.result = result;
-        });
+    suite('bbc', function() {
+      setup(function() {
+        return fetch('icon/index.html')
+          .then(result => parse(result.html, result.url))
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      test('it returns the icon', function() {
+        assert.equal(this.result.icon, 'http://static.bbci.co.uk/news/1.111.16/apple-touch-icon.png');
+      });
+
+      test('it returns a list of all found icons', function() {
+        assert.equal(this.result.icons.length, 5);
+      });
     });
 
-    test('it returns the icon', function() {
-      assert.equal(this.result.icon, 'http://static.bbci.co.uk/news/1.111.16/apple-touch-icon.png');
-    });
+    suite('github-repo', function() {
+      setup(function() {
+        return fetch('icon/github-repo.html')
+          .then(result => parse(result.html, result.url))
+          .then(result => {
+            this.result = result;
+          });
+      });
 
-    test('it returns a list of all found icons', function() {
-      assert.equal(this.result.icons.length, 5);
+      test('it returns the icon', function() {
+        assert.equal(this.result.icon, 'http://localhost:4000/apple-touch-icon-180x180.png');
+      });
     });
   });
 
