@@ -242,6 +242,20 @@ describe('magnet-parser', function() {
   });
 
   describe('.embed', function() {
+    describe('none', function() {
+      beforeEach(function() {
+        return fetchLocal('title/title-tag.html')
+          .then(result => parser.parse(result.html, result.url))
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      it('returns `undefined`', function() {
+        assert.equal(this.result.embed, undefined);
+      });
+    });
+
     describe('json', function() {
       beforeEach(function() {
         return fetchLocal('oembed/json/index.html')
