@@ -163,7 +163,7 @@ describe('magnet-parser', function() {
       });
     });
 
-    describe.only('view-source-speaker', function() {
+    describe('view-source-speaker', function() {
       before(function() {
         return fetch('https://viewsourceconf.org/berlin-2016/speakers/jen-simmons/')
           .then(result => parser.parse(result.html, result.url))
@@ -188,6 +188,33 @@ describe('magnet-parser', function() {
       it('has Person type', function() {
         assert.equal(this.result.type, 'Person');
       });
+    });
+  });
+
+  describe('google-play-app', function() {
+    before(function() {
+      return fetch('https://play.google.com/store/apps/details?id=org.mozilla.firefox')
+        .then(result => parser.parse(result.html, result.url))
+        .then(result => {
+          this.result = result;
+        });
+    });
+
+    it('has correct title', function() {
+      assert.equal(this.result.title, 'Firefox Browser fast & private');
+    });
+
+    it('has correct description', function() {
+      assert.equal(this.result.description, 'Experience a fast, smart and personal Web. Firefox is the independent, people-first browser made by Mozilla, voted the Most Trusted Internet Company for Privacy. Upgrade today and join hundreds of millions who depend on Firefox for a more personal browsing experience.');
+    });
+
+    it('has an image', function() {
+      assert.ok(this.result.image);
+      assert.ok(this.result.image.startsWith('http'), 'image url is absolute');
+    });
+
+    it('has correct type', function() {
+      assert.equal(this.result.type, 'MobileApplication');
     });
   });
 
