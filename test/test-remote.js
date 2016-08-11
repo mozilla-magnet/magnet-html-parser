@@ -54,7 +54,7 @@ describe('magnet-parser', function() {
         assert.ok(this.result.image);
       });
 
-      it('has person type', function() {
+      it('has correct type', function() {
         assert.equal(this.result.type, 'Person');
       });
     });
@@ -73,10 +73,34 @@ describe('magnet-parser', function() {
       });
 
       it('has an image', function() {
-        assert.equal(this.result.image, 'https://scontent.xx.fbcdn.net/t31.0-8/10623711_10152774291972381_7097908318373997095_o.jpg');
+        assert(this.result.image.startsWith('http'), this.result.image);
+        assert(this.result.image.indexOf('.jpg') > -1, this.result.image);
       });
 
-      it('has person type', function() {
+      it('has correct type', function() {
+        assert.equal(this.result.type, 'Organization');
+      });
+    });
+
+    describe.skip('organization (mobile)', function() {
+      before(function() {
+        return fetch('https://m.facebook.com/mozilla')
+          .then(result => parser.parse(result.html, result.url))
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      it('uses the organization name as title', function() {
+        assert.equal(this.result.title, 'Mozilla');
+      });
+
+      it('has an image', function() {
+        assert(this.result.image.startsWith('http'));
+        assert(this.result.image.endsWith('.jpg'));
+      });
+
+      it('has correct type', function() {
         assert.equal(this.result.type, 'Organization');
       });
     });
@@ -201,16 +225,16 @@ describe('magnet-parser', function() {
     });
 
     it('has correct title', function() {
-      assert.equal(this.result.title, 'Firefox Browser fast & private');
+      assert(this.result.title.startsWith('Firefox'));
     });
 
     it('has correct description', function() {
-      assert.equal(this.result.description, 'Experience a fast, smart and personal Web. Firefox is the independent, people-first browser made by Mozilla, voted the Most Trusted Internet Company for Privacy. Upgrade today and join hundreds of millions who depend on Firefox for a more personal browsing experience.');
+      assert(this.result.description.indexOf('Firefox') > -1);
     });
 
     it('has an image', function() {
       assert.ok(this.result.image);
-      assert.ok(this.result.image.startsWith('http'), 'image url is absolute');
+      assert(this.result.image.startsWith('http'), 'image url is absolute');
     });
 
     it('has correct type', function() {
@@ -226,6 +250,7 @@ describe('magnet-parser', function() {
     return new Promise((resolve, reject) => {
       request
         .get(url)
+        .set('User-Agent', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36')
         .end((err, result) => {
           if (err) reject(err);
           resolve({
