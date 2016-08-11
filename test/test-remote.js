@@ -42,7 +42,7 @@ describe('magnet-parser', function() {
           });
       });
 
-      it('uses the persons name as title', function() {
+      it.only('uses the persons name as title', function() {
         assert.equal(this.result.title, 'Wilson Page');
       });
 
@@ -253,6 +253,7 @@ describe('magnet-parser', function() {
         .set('User-Agent', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36')
         .end((err, result) => {
           if (err) reject(err);
+          console.log(result.text);
           resolve({
             html: result.text,
             url: result.res.url || result.request.url
