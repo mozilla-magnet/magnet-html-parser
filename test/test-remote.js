@@ -32,6 +32,7 @@ describe('magnet-parser', function() {
     this.server.stop();
   });
 
+  // facebook being blocked from travis servers: 'security check required'
   describe('facebook', function() {
     describe('person', function() {
       before(function() {
@@ -42,7 +43,7 @@ describe('magnet-parser', function() {
           });
       });
 
-      it.only('uses the persons name as title', function() {
+      it('uses the persons name as title', function() {
         assert.equal(this.result.title, 'Wilson Page');
       });
 
@@ -251,9 +252,11 @@ describe('magnet-parser', function() {
       request
         .get(url)
         .set('User-Agent', 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36')
+        .set('Cookie', 'datr=4pOrVyLUWogJ5vEY_P8_Iac1; reg_fb_ref=https%3A%2F%2Fm.facebook.com%2Fmozilla; reg_fb_gate=https%3A%2F%2Fm.facebook.com%2Fmozilla; fr=0kUN5Q5WsohTwpKre..BXq5Pi.MS.AAA.0.0.BXrI4k.AWUObnmT')
+        .set('Accept', 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8')
+        .set('Accept-Language', 'en-US,en;q=0.8')
         .end((err, result) => {
           if (err) reject(err);
-          console.log(result.text);
           resolve({
             html: result.text,
             url: result.res.url || result.request.url
