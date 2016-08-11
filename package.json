@@ -31,7 +31,8 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "pretest": "npm run lint",
-    "test": "mocha --ui tdd"
+    "test": "npm run test-local && npm run test-remote",
+    "test-local": "mocha --ui bdd test/test-local.js",
+    "test-remote": "mocha --ui bdd test/test-remote.js"
   }
 }
