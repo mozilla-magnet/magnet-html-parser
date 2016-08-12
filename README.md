@@ -21,6 +21,17 @@ The parser will attempt to return the following metadata:
 > What metadata is returned completely depends on how the page is marked-up.
 > We cannot guarantee any results.
 
+## Hash Fragments
+
+If the given URL has a hash fragment extension, `magnet-html-parser` will
+attempt to fetch an element with the given ID and return a `title`, `description`
+and `image` from that scope.
+
+- `title` - The `textContent` of the first heading (`<h1>`,`<h2>`,`<h3>`, ...) descendant of the fragment element
+- `description` - The `textContent` of the first `<p>` descendant of the fragment element
+- `image` - The `src` of the first `<img>` descendant of the fragment element.
+- `fragment` - Will be `true` when give URL contains a fragment.
+
 ## Adaptors
 
 An adaptor is a custom parser that performs some specific metadata extraction
