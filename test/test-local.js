@@ -33,8 +33,7 @@ describe('magnet-parser', function() {
   describe('.title', function() {
     describe('<title>', function() {
       beforeEach(function() {
-        return fetchLocal('title/title-tag.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('title/title-tag.html')
           .then(result => {
             this.result = result;
           });
@@ -47,8 +46,7 @@ describe('magnet-parser', function() {
 
     describe('og:title', function() {
       beforeEach(function() {
-        return fetchLocal('title/title-tag-og-title.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('title/title-tag-og-title.html')
           .then(result => {
             this.result = result;
           });
@@ -63,8 +61,7 @@ describe('magnet-parser', function() {
   describe('.description', function() {
     describe('none', function() {
       beforeEach(function() {
-        return fetchLocal('description/none.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('description/none.html')
           .then(result => {
             this.result = result;
           });
@@ -77,8 +74,7 @@ describe('magnet-parser', function() {
 
     describe('<meta name="description">', function() {
       beforeEach(function() {
-        return fetchLocal('description/meta-description.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('description/meta-description.html')
           .then(result => {
             this.result = result;
           });
@@ -91,8 +87,7 @@ describe('magnet-parser', function() {
 
     describe('og:description', function() {
       beforeEach(function() {
-        return fetchLocal('description/meta-description+og-description.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('description/meta-description+og-description.html')
           .then(result => {
             this.result = result;
           });
@@ -107,8 +102,7 @@ describe('magnet-parser', function() {
   describe('.icon', function() {
     describe('none', function() {
       beforeEach(function() {
-        return fetchLocal('icon/none.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('icon/none.html')
           .then(result => {
             this.result = result;
           });
@@ -121,28 +115,26 @@ describe('magnet-parser', function() {
 
     describe('apple-touch-icon', function() {
       beforeEach(function() {
-        return fetchLocal('icon/apple-touch-icon.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('icon/apple-touch-icon.html')
           .then(result => {
             this.result = result;
           });
       });
 
-      it('it picks the largest apple-touch-icon', function() {
+      it('picks the largest apple-touch-icon', function() {
         assert.equal(this.result.icon, `http://localhost:${PORT}/apple-touch-icon-180x180.png`);
       });
     });
 
     describe('manifest', function() {
       beforeEach(function() {
-        return fetchLocal('icon/manifest')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('icon/manifest')
           .then(result => {
             this.result = result;
           });
       });
 
-      it('it picks the largest manifest icon', function() {
+      it('picks the largest manifest icon', function() {
         assert.equal(this.result.icon, `http://localhost:${PORT}/icon/manifest/images/touch/homescreen192.png`);
       });
     });
@@ -151,8 +143,7 @@ describe('magnet-parser', function() {
   describe('.siteName', function() {
     describe('none', function() {
       beforeEach(function() {
-        return fetchLocal('site-name/none.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('site-name/none.html')
           .then(result => {
             this.result = result;
           });
@@ -165,8 +156,7 @@ describe('magnet-parser', function() {
 
     describe('og:site_name', function() {
       beforeEach(function() {
-        return fetchLocal('site-name/og-site-name.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('site-name/og-site-name.html')
           .then(result => {
             this.result = result;
           });
@@ -179,8 +169,7 @@ describe('magnet-parser', function() {
 
     describe('manifest', function() {
       beforeEach(function() {
-        return fetchLocal('site-name/manifest')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('site-name/manifest')
           .then(result => {
             this.result = result;
           });
@@ -194,8 +183,7 @@ describe('magnet-parser', function() {
 
   describe('.keywords', function() {
     beforeEach(function() {
-      return fetchLocal('keywords/index.html')
-        .then(result => parser.parse(result.html, result.url))
+      return fetchParse('keywords/index.html')
         .then(result => {
           this.result = result;
         });
@@ -214,8 +202,7 @@ describe('magnet-parser', function() {
   describe('.icon', function() {
     describe('bbc', function() {
       beforeEach(function() {
-        return fetchLocal('icon/index.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('icon/index.html')
           .then(result => {
             this.result = result;
           });
@@ -228,8 +215,7 @@ describe('magnet-parser', function() {
 
     describe('apple-touch-icon', function() {
       beforeEach(function() {
-        return fetchLocal('icon/apple-touch-icon.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('icon/apple-touch-icon.html')
           .then(result => {
             this.result = result;
           });
@@ -244,8 +230,7 @@ describe('magnet-parser', function() {
   describe('.embed', function() {
     describe('none', function() {
       beforeEach(function() {
-        return fetchLocal('title/title-tag.html')
-          .then(result => parser.parse(result.html, result.url))
+        return fetchParse('title/title-tag.html')
           .then(result => {
             this.result = result;
           });
@@ -258,11 +243,8 @@ describe('magnet-parser', function() {
 
     describe('json', function() {
       beforeEach(function() {
-        return fetchLocal('oembed/json/index.html')
-          .then(result => parser.parse(result.html, result.url))
-          .then(result => {
-            this.result = result;
-          });
+        return fetchParse('oembed/json/index.html')
+          .then(result => this.result = result);
       });
 
       it('it parses the contents', function() {
@@ -273,11 +255,8 @@ describe('magnet-parser', function() {
 
     describe('xml', function() {
       beforeEach(function() {
-        return fetchLocal('oembed/xml/index.html')
-          .then(result => parser.parse(result.html, result.url))
-          .then(result => {
-            this.result = result;
-          });
+        return fetchParse('oembed/xml/index.html')
+          .then(result => this.result = result);
       });
 
       it('it parses the contents', function() {
@@ -287,8 +266,7 @@ describe('magnet-parser', function() {
     });
 
     it('copes with query params on target url', function() {
-      return fetchLocal('oembed/json/index.html?url=http://google.com')
-        .then(result => parser.parse(result.html, result.url))
+      return fetchParse('oembed/json/index.html?url=http://google.com')
         .then(result => {
           assert.ok(result.embed);
           assert.ok(result.embed.html);
@@ -298,19 +276,57 @@ describe('magnet-parser', function() {
 
   describe('.themeColor', function() {
     it('returns <meta> defined', function() {
-      return fetchLocal('theme-color/meta.html')
-        .then(result => parser.parse(result.html, result.url))
+      return fetchParse('theme-color/meta.html')
         .then(result => {
           assert.equal(result.themeColor, 'red');
         });
     });
 
     it('returns manifest defined', function() {
-      return fetchLocal('theme-color/manifest')
-        .then(result => parser.parse(result.html, result.url))
+      return fetchParse('theme-color/manifest')
         .then(result => {
           assert.equal(result.themeColor, '#2196F3');
         });
+    });
+  });
+
+  describe('fragments', function() {
+    describe('full', function() {
+      beforeEach(function() {
+        return fetchParse('fragments/index.html#aframe-workshop')
+          .then(result => this.result = result);
+      });
+
+      it('flags that fragment parsing took place', function() {
+        assert(this.result.fragment);
+      });
+
+      it('extracts a title', function() {
+        assert.equal(this.result.title, 'Ada-Rose Edwards WORKSHOP: Bringing VR to the world via the web');
+      });
+
+      it('extracts a description', function() {
+        assert.equal(this.result.description, 'Join us at this webVR workshop aimed at traditional web developers. This is an introduction to building Virtual Reality experiences for the Web, touching on the tools for creating assets for 3D VR scenes. The session will focus on A-Frame for composing 3D scenes in a fashion familiar to those used to building for the web.');
+      });
+
+      it('extracts an image', function() {
+        assert.equal(this.result.image, `http://localhost:${PORT}/assets/images/speakers/adaroseedwards.jpg`);
+      });
+    });
+
+    describe('without image', function() {
+      beforeEach(function() {
+        return fetchParse('fragments/index.html#sustainable-oss')
+          .then(result => this.result = result);
+      });
+
+      it('extracts a title', function() {
+        assert.equal(this.result.title, 'Sustainable Open-Source Projects');
+      });
+
+      it('falls back to the page image', function() {
+        assert.equal(this.result.image, 'https://viewsourceconf.org/assets/images/berlin_facebook.jpg');
+      });
     });
   });
 
@@ -318,20 +334,15 @@ describe('magnet-parser', function() {
    * Utils
    */
 
-  function fetchLocal(app) {
-    return fetch(`http://localhost:${PORT}/${app}`);
-  }
-
-  function fetch(url) {
+  function fetchParse(path) {
+    var url = `http://localhost:${PORT}/${path}`;
     return new Promise((resolve, reject) => {
       request
         .get(url)
         .end((err, result) => {
           if (err) reject(err);
-          resolve({
-            html: result.text,
-            url: result.res.url || result.request.url
-          });
+          parser.parse(result.text, result.request.url)
+            .then(resolve, reject);
         });
     });
   }
