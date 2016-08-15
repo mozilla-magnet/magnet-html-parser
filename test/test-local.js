@@ -330,6 +330,17 @@ describe('magnet-parser', function() {
     });
   });
 
+  describe('canonical', function() {
+    beforeEach(function() {
+      return fetchParse('canonical/index.html')
+        .then(result => this.result = result);
+    });
+
+    it('processes the canonical document', function() {
+      assert.equal(this.result.title, 'canonical');
+    });
+  });
+
   /**
    * Utils
    */
