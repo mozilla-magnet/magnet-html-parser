@@ -298,7 +298,7 @@ describe('magnet-parser', function() {
       });
 
       it('flags that fragment parsing took place', function() {
-        assert(this.result.fragment);
+        assert(this.result.scoped);
       });
 
       it('extracts a title', function() {
