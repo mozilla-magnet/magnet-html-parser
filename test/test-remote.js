@@ -188,6 +188,32 @@ describe('magnet-parser', function() {
       });
     });
 
+    describe('m.', function() {
+      before(function() {
+        return fetch('https://en.m.wikipedia.org/wiki/Ramsay_MacDonald')
+          .then(result => parser.parse(result.html, result.url))
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      it('uses the article title as title', function() {
+        assert.equal(this.result.title, 'Ramsay MacDonald');
+      });
+
+      it('uses has a description', function() {
+        assert.ok(this.result.description);
+      });
+
+      it('has an image', function() {
+        assert.ok(this.result.image);
+      });
+
+      it('has Article type', function() {
+        assert.equal(this.result.type, 'Article');
+      });
+    });
+
     describe('view-source-speaker', function() {
       before(function() {
         return fetch('https://viewsourceconf.org/berlin-2016/speakers/jen-simmons/')
