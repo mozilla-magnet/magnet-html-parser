@@ -56,6 +56,19 @@ describe('magnet-parser', function() {
         assert.equal(this.result.title, 'the og title');
       });
     });
+
+    describe('firefox', function() {
+      beforeEach(function() {
+        return fetchParse('title/dirty-title.html')
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      it('it gets the title', function() {
+        assert.equal(this.result.title, 'Browse Freely');
+      });
+    });
   });
 
   describe('.description', function() {
