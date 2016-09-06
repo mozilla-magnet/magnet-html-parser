@@ -303,6 +303,47 @@ describe('magnet-parser', function() {
     });
   });
 
+  describe('.url', function() {
+    describe('magnet:url', function() {
+      beforeEach(function() {
+        return fetchParse('url/magnet-url.html')
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      it('uses the magnet:url', function() {
+        assert.equal(this.result.url, 'http://magnet.com');
+      });
+    });
+
+    describe.skip('og:url', function() {
+      beforeEach(function() {
+        return fetchParse('url/og-url.html')
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      it('uses the og:url', function() {
+        assert.equal(this.result.url, 'http://og.com');
+      });
+    });
+
+    describe('none', function() {
+      beforeEach(function() {
+        return fetchParse('url/none.html')
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      it('uses the passed url', function() {
+        assert.equal(this.result.url, `http://localhost:${PORT}/url/none.html`);
+      });
+    });
+  });
+
   describe('fragments', function() {
     describe('full', function() {
       beforeEach(function() {
