@@ -1,6 +1,6 @@
 {
   "name": "magnet-html-parser",
-  "version": "3.2.1",
+  "version": "3.2.2",
   "author": "Mozilla",
   "browser": {
     "./lib/html-parser/index.js": "./lib/html-parser/browser.js"
