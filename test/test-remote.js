@@ -255,7 +255,7 @@ describe('magnet-parser', function() {
       assert(this.result.title.startsWith('Firefox'));
     });
 
-    it('has correct description', function() {
+    it.skip('has correct description', function() {
       assert(this.result.description.indexOf('Firefox') > -1);
     });
 
