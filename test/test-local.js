@@ -382,6 +382,18 @@ describe('magnet-parser', function() {
         assert.equal(this.result.image, 'https://viewsourceconf.org/assets/images/berlin_facebook.jpg');
       });
     });
+
+    // This test case is for a specific failure when the hash fragment is uri encoded
+    describe('fragments with a ".%" character sequence', function() {
+      beforeEach(function() {
+        return fetchParse('fragments/index.html#12.%20fail')
+          .then(result => this.result = result);
+      });
+
+      it('falls back to the whole page', function() {
+        assert.equal(this.result.image, 'https://viewsourceconf.org/assets/images/berlin_facebook.jpg');
+      });
+    });
   });
 
   describe('canonical', function() {
