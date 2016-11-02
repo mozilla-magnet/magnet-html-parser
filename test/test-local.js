@@ -112,6 +112,37 @@ describe('magnet-parser', function() {
     });
   });
 
+  describe('.relLinks', function() {
+    describe('next', function() {
+      beforeEach(function() {
+        return fetchParse('rel-links/a.html')
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      it('has a next rel links', function() {
+        assert.equal(this.result.relNext.length, 2);
+        assert.equal(this.result.relNext[0], 'a-1.html');
+        assert.equal(this.result.relNext[1], 'b.html');
+      });
+    });
+
+    describe('prev', function() {
+      beforeEach(function() {
+        return fetchParse('rel-links/b.html')
+          .then(result => {
+            this.result = result;
+          });
+      });
+
+      it('has a prev rel link', function() {
+        assert.equal(this.result.relPrev.length, 1);
+        assert.equal(this.result.relPrev[0], 'a.html');
+      });
+    });
+  });
+
   describe('.icon', function() {
     describe('none', function() {
       beforeEach(function() {
